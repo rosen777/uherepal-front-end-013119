@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
-import Map from './components/Map'
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom'
+import NavBar from './components/NavBar'
 import './App.css';
+import Map from './components/Map'
+
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <Map />
+      <Router>
+      <div style={{ borderBottom: '2px solid black', paddingBottom: '10px', marginBottom: '12px'}}>
+        <NavBar />
+        <Route exact path='/map' component={Map} /> 
       </div>
+      </Router>
     );
   }
 }
