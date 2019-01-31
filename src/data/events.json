@@ -1,0 +1,26 @@
+[
+    {
+        "title": "Exploding Kittens",
+        "capacity": 12,
+        "image": "https://explodingkittens.com/img/social/ek_Facebook_OG_Images_Home.png",
+        "date": "31st of January at 4pm",
+        "latitude": 51.520470,
+        "longitude": -0.087260
+    },
+    {
+        "title": "Football game",
+        "capacity": 5,
+        "image": "https://cdn.pixabay.com/photo/2018/06/12/20/17/football-3471402_960_720.jpg",
+        "date": "2nd of February at 2pm",
+        "latitude": 51.521766,
+        "longitude": -0.088602
+    },
+    {
+        "title": "Hackathon",
+        "capacity": 30,
+        "image": "https://cdn.pixabay.com/photo/2018/06/08/00/48/developer-3461405_960_720.png",
+        "date": "2nd of February at 2pm",
+        "latitude": 51.525222,
+        "longitude": -0.080842
+    }
+]
