@@ -68,7 +68,8 @@ class App extends Component {
         <div style={{ borderBottom: '2px solid black', paddingBottom: '10px', marginBottom: '12px'}}>
           <Header username={this.state.username} signout={this.signout}  />
           <NavBar />
-          <Route exact path='/' component={null} /> 
+            <Route exact path='/' component={routerProps =>
+              <SignInForm {...routerProps} signin={this.signin} />} /> 
             <Route path='/signin' component={routerProps => 
               <SignInForm {...routerProps} signin={this.signin} />} />
             <Route path='/signup' component={routerProps =>
@@ -83,7 +84,7 @@ class App extends Component {
             } />
         </div>
         </Router>
-        <Map/>
+
       </div>
     );
   }

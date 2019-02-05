@@ -15,8 +15,6 @@ import API from '../API'
 
 const TOKEN = process.env.REACT_APP_MAPBOX_API_KEY
 
-const windowAlert = window.alert;
-
 const navStyle = {
     position: 'absolute',
     top: 0,
@@ -54,12 +52,18 @@ export default class EventMap extends Component {
             .then(result => this.setState({
                 events: result
             })
-            )
+        )
     }
 
     componentDidMount() {
-        this.fetchEvents()
-        this._locateUser()
+        const { username, history } = this.props
+        
+        if (!username) {
+            history.push('/signin')
+        } else {
+            this.fetchEvents()
+            this._locateUser()
+        }
     }
 
      
@@ -97,7 +101,6 @@ export default class EventMap extends Component {
     }
 
     _onClick = (params) => {
-        console.log(params)
         this.setState({
             eventLat: params.lngLat[1],
             eventLong: params.lngLat[0],
@@ -110,8 +113,8 @@ export default class EventMap extends Component {
         return (
             <Marker
                 key={`marker-${index}`}
-                longitude={city.longitude}
-                latitude={city.latitude} 
+                longitude={Number(city.longitude)}
+                latitude={Number(city.latitude)} 
                 >
                 <CityPin size={20} onClick={() => this.setState({ popupInfo: city })} />
             </Marker>
@@ -124,8 +127,8 @@ export default class EventMap extends Component {
         return popupInfo && (
             <Popup tipSize={5}
                 anchor="top"
-                longitude={popupInfo.longitude}
-                latitude={popupInfo.latitude}
+                longitude={Number(popupInfo.longitude)}
+                latitude={Number(popupInfo.latitude)}
                 closeOnClick={false}
                 onClose={() => this.setState({ 
                     popupInfo: null 
