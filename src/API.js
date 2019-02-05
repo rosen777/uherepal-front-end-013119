@@ -22,7 +22,7 @@ static getEvents () {
 }
 
 // static getInventory() {
-//     return this.get('http://localhost:3001/inventory')
+//     return this.get('http://localhost:3001/invent encoory')
 // }
 
 static get(url) {
@@ -40,7 +40,23 @@ static createUser(user) {
     }).then(resp => resp.json() )
 }
 
+    static createEvent(newEventObject) {
+    return fetch ('http://localhost:3001/api/v1/events', { 
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('token')
+        },
+        body: JSON.stringify(
+            newEventObject
+        )
+   
 }
+    )
+}
+
+}
+
 
 
 API.init()

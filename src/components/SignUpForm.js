@@ -20,7 +20,6 @@ class SignUpForm extends React.Component {
                 if (data.error) {
                     alert(data.error)
                 } else {
-                    console.log(data)
                     this.props.signup(data)
                     this.props.history.push('/joined')
                 }

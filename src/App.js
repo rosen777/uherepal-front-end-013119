@@ -12,6 +12,8 @@ import Header from './components/Header'
 import Joined from './components/Joined'
 import SignUpForm from 
 './components/SignUpForm'
+import EventMap from 
+'./components/EventMap'
 
 import API from './API'
 
@@ -71,16 +73,17 @@ class App extends Component {
               <SignInForm {...routerProps} signin={this.signin} />} />
             <Route path='/signup' component={routerProps =>
               <SignUpForm {...routerProps} signup={this.signup}
-              signin={this.signin}
                />} />
             <Route path='/joined' component={routerProps =>
               <Joined {...routerProps} username={this.state.username} />
             } />
-
           <Route path='/map' component={routerProps => <Map {...routerProps} username={this.state.username}/> 
           } />
+            <Route path='/eventmap' component={routerProps => <EventMap {...routerProps} username={this.state.username} />
+            } />
         </div>
         </Router>
+        <Map/>
       </div>
     );
   }

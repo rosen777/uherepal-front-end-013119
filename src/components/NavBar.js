@@ -12,9 +12,10 @@ return (
     </div>
     <ul>
         <li><Link to="/">Home</Link></li>
-        <li><Link to="/signin">Singin</Link></li>
-        <li><Link to="/signup">Singup</Link></li>
+        <li><Link to="/signin">Signin</Link></li>
+        <li><Link to="/signup">Signup</Link></li>
         <li><Link to="/joined">Joined</Link></li>
+        <li><Link to="/eventmap">Event Map</Link></li>
         <li><Link to="/map">Map</Link></li>
     </ul>
         </div>
