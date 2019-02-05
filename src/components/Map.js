@@ -5,8 +5,11 @@ import CityPin from '../city-pin'
 import CityInfo from '../city-info'
 
 import EVENTS from '../data/events.json'
+import './Map.css'
 
 const TOKEN = process.env.REACT_APP_MAPBOX_API_KEY
+
+const windowAlert = window.alert;
 
 const navStyle = {
     position: 'absolute',
@@ -22,19 +25,24 @@ export default class Map extends Component {
         this._locateUser()
     }
 
+
       state = {
+          loclat: 0,
+          loclong: 0,
             viewport: {
                 latitude: 37.773,
                 longitude: -122.481,
                 zoom: 15,
                 bearing: 0,
-                pitch: 0
+                pitch: 0,
+                long: 0,
+                lat: 0
             },
             popupInfo: null
         }
 
     _updateViewport = (viewport) => {
-        this.setState({ viewport });
+        this.setState({ viewport })
     }
 
     _locateUser() {
@@ -48,12 +56,18 @@ export default class Map extends Component {
         });
     }
 
+    _onClick(params) {
+        console.log(params)
+    }
+
     _renderCityMarker = (city, index) => {
         return (
             <Marker
                 key={`marker-${index}`}
                 longitude={city.longitude}
-                latitude={city.latitude} >
+                latitude={city.latitude} 
+     
+                >
                 <CityPin size={20} onClick={() => this.setState({ popupInfo: city })} />
             </Marker>
         );
@@ -79,23 +93,28 @@ export default class Map extends Component {
     render() {
 
         return (
-            <MapGL
-                {...this.state.viewport}
-                width="100vw"
-                height="100vh"
-                mapStyle="mapbox://styles/rtoshev/cjrjnz97a2svr2snmi3h9pe5s"
-                onViewportChange={this._updateViewport}
-                mapboxApiAccessToken={TOKEN} >
+            <div className='map-container'>
+                <MapGL
+                    {...this.state.viewport}
+                    width="100vw"
+                    height="100vh"
+                    mapStyle="mapbox://styles/rtoshev/cjrjnz97a2svr2snmi3h9pe5s"
+                    onViewportChange={this._updateViewport}
+                    mapboxApiAccessToken={TOKEN}
+                    onClick={this._onClick}
+                     >
+                    
 
-                {EVENTS.map(this._renderCityMarker)}
+                    {EVENTS.map(this._renderCityMarker)}
 
-                {this._renderPopup()}
+                    {this._renderPopup()}
 
-                <div className="nav" style={navStyle}>
-                    <NavigationControl onViewportChange={this._updateViewport} />
-                </div>
+                    <div className="nav" style={navStyle}>
+                        <NavigationControl onViewportChange={this._updateViewport} />
+                    </div>
 
-            </MapGL>
+                </MapGL>
+            </div>
         );
     }
 

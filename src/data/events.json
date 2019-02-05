@@ -10,7 +10,7 @@
     {
         "title": "Football game",
         "capacity": 5,
-        "image": "https://cdn.pixabay.com/photo/2018/06/12/20/17/football-3471402_960_720.jpg",
+        "image": "https://images.freeimages.com/images/large-previews/30d/soccer-balls-1548508.jpg",
         "date": "2nd of February at 2pm",
         "latitude": 51.521766,
         "longitude": -0.088602
@@ -18,7 +18,7 @@
     {
         "title": "Hackathon",
         "capacity": 30,
-        "image": "https://cdn.pixabay.com/photo/2018/06/08/00/48/developer-3461405_960_720.png",
+        "image": "https://images.freeimages.com/images/large-previews/b13/writing-on-laptop-1153506.jpg",
         "date": "2nd of February at 2pm",
         "latitude": 51.525222,
         "longitude": -0.080842
