@@ -2,6 +2,10 @@ import React, {Component} from 'react'
 
 import API from '../API'
 
+import { Card, Image, Icon} from 'semantic-ui-react'
+
+import './Joined.css'
+
 class Joined extends Component {
     state = {
         events: []
@@ -42,14 +46,33 @@ class Joined extends Component {
                 {
                     events.map(event =>
                         <div>
-                        <h1>{event.id}
-                        </h1>
-                        <h1>
-                    {event.title}
-                        </h1> 
+                            <Card color='grey' raised='true' className='event-card'>
+                            <Image src={`${event.image}`} />
+                            <Card.Content>
+                            <Card.Header>
+                                {event.title}
+                            </Card.Header>
+                                <Card.Content extra>
+                                <a>
+                                <Card.Description className='event-card-capacity'>
+                                <Icon name='users' color='grey'/>
+                                    {event.capacity}
+                                </Card.Description>
+                                </a>
+                                <a>
+                                <Card.Description className='event-card-date'>
+                                    <Icon name='calendar alternate' color='grey' />
+                                    {event.date}
+                                </Card.Description>
+                                </a>
+                            </Card.Content>
+                            </Card.Content>
+                        </Card>
+                        <br />
                         </div>
                     )
                 }
+                {console.log(this.state.events)}
             </div>
         )
     }
