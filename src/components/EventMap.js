@@ -24,6 +24,8 @@ const navStyle = {
 
 const EVENTSURL = 'http://localhost:3001/api/v1/events'
 
+const windowAlert = window.alert;
+
 
 export default class EventMap extends Component {
     
@@ -58,12 +60,9 @@ export default class EventMap extends Component {
     componentDidMount() {
         const { username, history } = this.props
         
-        if (!username) {
-            history.push('/signin')
-        } else {
             this.fetchEvents()
             this._locateUser()
-        }
+        
     }
 
      
@@ -101,12 +100,15 @@ export default class EventMap extends Component {
     }
 
     _onClick = (params) => {
-        this.setState({
-            eventLat: params.lngLat[1],
-            eventLong: params.lngLat[0],
-            eventSwitch: true
-        })
-
+        if (this.props.username) {
+            this.setState({
+                eventLat: params.lngLat[1],
+                eventLong: params.lngLat[0],
+                eventSwitch: true
+            })
+        } else {
+            windowAlert('Please, sign up to make or join an event!')
+        }
     }
 
     _renderCityMarker = (city, index) => {

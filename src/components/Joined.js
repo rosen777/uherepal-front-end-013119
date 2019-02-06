@@ -41,7 +41,7 @@ class Joined extends Component {
 
         return (
             <div style={this.style} className='user-list'>
-                <h3>Here are your events:</h3>
+                <h3 className='history-heading'>My History of Events</h3>
                 {events.length === 0 && <p>Sorry, you don't have any events.</p>}
                 {
                     events.map(event =>

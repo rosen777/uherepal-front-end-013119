@@ -9,7 +9,7 @@ import './Map.css'
 
 const TOKEN = process.env.REACT_APP_MAPBOX_API_KEY
 
-const windowAlert = window.alert;
+const EVENTSURL = 'http://localhost:3001/api/v1/events'
 
 const navStyle = {
     position: 'absolute',
@@ -22,6 +22,7 @@ const navStyle = {
 export default class Map extends Component {
 
     componentDidMount() {
+        this.fetchEvents()
         this._locateUser()
     }
 
@@ -29,6 +30,7 @@ export default class Map extends Component {
       state = {
           loclat: 0,
           loclong: 0,
+          events: [],
             viewport: {
                 latitude: 37.773,
                 longitude: -122.481,
@@ -41,6 +43,15 @@ export default class Map extends Component {
             popupInfo: null
         }
 
+    fetchEvents = () => {
+        fetch(EVENTSURL)
+            .then(resp => resp.json())
+            .then(result => this.setState({
+                events: result
+            })
+            )
+    }
+
     _updateViewport = (viewport) => {
         this.setState({ viewport })
     }
@@ -51,7 +62,7 @@ export default class Map extends Component {
             this._updateViewport({
                 longitude: position.coords.longitude,
                 latitude: position.coords.latitude,
-                 zoom: 15,
+                 zoom: 15
             });
         });
     }
@@ -105,7 +116,7 @@ export default class Map extends Component {
                      >
                     
 
-                    {EVENTS.map(this._renderCityMarker)}
+                    {this.state.events.map(this._renderCityMarker)}
 
                     {this._renderPopup()}
 

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from './Header'
 import './NavBar.css'
 
-const NavBar = () => {
+const NavBar = ( {signout}) => {
 return (
     <nav>
     <div className="menu">
@@ -14,9 +14,9 @@ return (
         <li><Link to="/">Home</Link></li>
         <li><Link to="/signin">Signin</Link></li>
         <li><Link to="/signup">Signup</Link></li>
-        <li><Link to="/joined">Joined</Link></li>
+        <li><Link to="/joined">My History</Link></li>
         <li><Link to="/eventmap">Event Map</Link></li>
-        <li><Link to="/map">Map</Link></li>
+        <li><Link to='' onClick={signout}>Signout</Link></li>
     </ul>
         </div>
     </nav>

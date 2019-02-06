@@ -66,8 +66,7 @@ class App extends Component {
       <div className="App">
         <Router>
         <div style={{ borderBottom: '2px solid black', paddingBottom: '10px', marginBottom: '12px'}}>
-          <Header username={this.state.username} signout={this.signout}  />
-          <NavBar />
+          <NavBar signout={this.signout} />
             <Route exact path='/' component={routerProps =>
               <SignInForm {...routerProps} signin={this.signin} />} /> 
             <Route path='/signin' component={routerProps => 
@@ -78,8 +77,6 @@ class App extends Component {
             <Route path='/joined' component={routerProps =>
               <Joined {...routerProps} username={this.state.username} />
             } />
-          <Route path='/map' component={routerProps => <Map {...routerProps} username={this.state.username}/> 
-          } />
             <Route path='/eventmap' component={routerProps => <EventMap {...routerProps} username={this.state.username} />
             } />
         </div>
