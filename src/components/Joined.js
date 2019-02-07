@@ -18,6 +18,8 @@ class Joined extends Component {
         }))
     }
 
+
+
     style = {
         display: 'flex',
         flexDirection: 'column',
@@ -27,6 +29,7 @@ class Joined extends Component {
 
     componentDidMount() {
         const { username, history } = this.props
+
         if (!username) {
             history.push('/signin')
         } else {
@@ -36,12 +39,12 @@ class Joined extends Component {
 
     render() {
         const { events } = this.state
-
-        console.log(this.state)
+        const { username } = this.props
+        const userNameCap = this.props.username.toUpperCase()
 
         return (
             <div style={this.style} className='user-list'>
-                <h3 className='history-heading'>My History of Events</h3>
+                <h3 className='history-heading'>{`${userNameCap}'s History of Events`}</h3>
                 {events.length === 0 && <p>Sorry, you don't have any events.</p>}
                 {
                     events.map(event =>

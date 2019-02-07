@@ -1,8 +1,26 @@
 import React, { PureComponent } from 'react';
 
+import { Button } from 'semantic-ui-react'
+import API from './API';
+
 export default class CityInfo extends PureComponent {
 
+
+
+    handleSubmit = () => {
+        console.log(this.props)
+        let newUserEventObject = {
+            "event_id": this.props.info.id
+        }
+
+        API.joinEvent(newUserEventObject)
+
+    }
+
+
+
     render() {
+        
         const { info } = this.props;
         const displayName = `${info.title}, 
         \n 
@@ -27,8 +45,14 @@ export default class CityInfo extends PureComponent {
                         href={`http://en.wikipedia.org/w/index.php?title=Special:Search&search=${displayName}`}>
                         Wikipedia
                     </a> */}
+
                 </div>
                 <img width={240} src={info.image} />
+                <div>
+                    <Button inverted color='blue' onClick={this.handleSubmit}>
+                        JOIN
+                    </Button>
+                </div>
             </div>
         );
     }

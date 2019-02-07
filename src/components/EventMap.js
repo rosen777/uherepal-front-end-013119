@@ -58,7 +58,6 @@ export default class EventMap extends Component {
     }
 
     componentDidMount() {
-        const { username, history } = this.props
         
             this.fetchEvents()
             this._locateUser()
@@ -82,6 +81,7 @@ export default class EventMap extends Component {
                 ]
             })
             API.createEvent(newEventObject).then(this.fetchEvents)
+            
     }
 
     _updateViewport = (viewport) => {
@@ -100,6 +100,7 @@ export default class EventMap extends Component {
     }
 
     _onClick = (params) => {
+
         if (this.props.username) {
             this.setState({
                 eventLat: params.lngLat[1],
@@ -118,7 +119,7 @@ export default class EventMap extends Component {
                 longitude={Number(city.longitude)}
                 latitude={Number(city.latitude)} 
                 >
-                <CityPin size={20} onClick={() => this.setState({ popupInfo: city })} />
+                <CityPin size={20} onClick={() => this.setState({ popupInfo: city }, console.log(city))} />
             </Marker>
         );
     }
@@ -157,6 +158,7 @@ export default class EventMap extends Component {
                         <Form.Input fluid label="longitude" placeholder={`${this.state.eventLong}`} name="longitude" />
                     </Form.Group>
                     <Form.Button>Submit</Form.Button>
+                    <br/>
                 </Form>
 
                 </div>
