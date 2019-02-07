@@ -5,13 +5,9 @@ import API from './API';
 
 export default class CityInfo extends PureComponent {
 
-    state = {
-        joinSwitch: false,
-    }
-
 
     handleSubmit = event => {
-        debugger
+
         let newUserEventObject = {
             "event_id": this.props.info.id
         }
@@ -21,14 +17,6 @@ export default class CityInfo extends PureComponent {
             this.props.fetchEvents()
         })
 
-        this.setState({
-            joinSwitch: true
-        })
-
-    }
-
-    joinedUser = () => {
-        
     }
 
 
@@ -40,7 +28,6 @@ export default class CityInfo extends PureComponent {
         ${info.date}`;
         const capacity = `${info.capacity}`
         const remainingSpots = `${capacity} spots left`
-        // const disableJoinButton = this.state.joinSwitch === true
 
         console.log(info)
 

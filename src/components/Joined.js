@@ -4,6 +4,8 @@ import API from '../API'
 
 import { Card, Image, Icon} from 'semantic-ui-react'
 
+
+
 import './Joined.css'
 
 class Joined extends Component {
@@ -49,12 +51,16 @@ class Joined extends Component {
             
 
             
-            <div style={this.style} className='user-list'>
+            <span style={this.style} className='user-list'>
                 <h3 className='history-heading'>{`${userNameCap}'s History of Events`}</h3>
                 {events.length === 0 && <p>Sorry, you don't have any events.</p>}
                 {
+                    <Card.Group>
+                    {
                     events.map(event =>
-                        <div>
+                        
+
+                       
                             <Card color='grey' raised='true' className='event-card'>
                             <Image src={`${event.image}`} />
                             <Card.Content>
@@ -79,16 +85,15 @@ class Joined extends Component {
                                     {event.date}
                                 </Card.Description>
                                 </a>
-                            </Card.Content>
-                            </Card.Content>
-                        </Card>
-                            {event.users.forEach(user => console.log((user.username)))}  
-                        <br />
-
-                        </div>
+                                </Card.Content>
+                                </Card.Content>
+                            </Card>
                     )
+                 }
+                    </Card.Group>
+                    
                 }
-            </div>
+            </span>
         )
     }
 }
