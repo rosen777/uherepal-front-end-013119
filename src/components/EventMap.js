@@ -53,7 +53,7 @@ export default class EventMap extends Component {
             .then(resp => resp.json())
             .then(result => this.setState({
                 events: result
-            })
+            } )
         )
     }
 
@@ -64,9 +64,11 @@ export default class EventMap extends Component {
         
     }
 
+    
+
      
 
-        handleSubmit = (event) => {
+    handleSubmit = (event) => {
 
             let newEventObject = {
                 "title": event.target.title.value,
@@ -119,7 +121,7 @@ export default class EventMap extends Component {
                 longitude={Number(city.longitude)}
                 latitude={Number(city.latitude)} 
                 >
-                <CityPin size={20} onClick={() => this.setState({ popupInfo: city }, console.log(city))} />
+                <CityPin size={20} onClick={() => this.setState({ popupInfo: city })} />
             </Marker>
         );
     }
@@ -136,7 +138,7 @@ export default class EventMap extends Component {
                 onClose={() => this.setState({ 
                     popupInfo: null 
                     })} >
-                <CityInfo info={popupInfo} />
+                <CityInfo info={popupInfo} username={this.props.username} fetchEvents={this.fetchEvents}/>
             </Popup>
         );
     }

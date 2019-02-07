@@ -13,9 +13,11 @@ class Joined extends Component {
 
     getEvents() {
         API.getEvents()
-        .then(events => this.setState({
-            events    
-        }))
+        .then(
+                events => this.setState({
+                events    
+            })
+        )
     }
 
 
@@ -41,8 +43,12 @@ class Joined extends Component {
         const { events } = this.state
         const { username } = this.props
         const userNameCap = this.props.username.toUpperCase()
-
+       
+        let guests =[ ]
         return (
+            
+
+            
             <div style={this.style} className='user-list'>
                 <h3 className='history-heading'>{`${userNameCap}'s History of Events`}</h3>
                 {events.length === 0 && <p>Sorry, you don't have any events.</p>}
@@ -57,9 +63,14 @@ class Joined extends Component {
                             </Card.Header>
                                 <Card.Content extra>
                                 <a>
+                                <Card.Description>
+                                {`${event.users.map(user =>  (user.username))}`}
+                                </Card.Description>
                                 <Card.Description className='event-card-capacity'>
                                 <Icon name='users' color='grey'/>
-                                    {event.capacity}
+                                    {event.users.length}    
+                                    {` ${event.users.map(user => (user.username)).join(', ')}`}
+                        
                                 </Card.Description>
                                 </a>
                                 <a>
@@ -71,11 +82,12 @@ class Joined extends Component {
                             </Card.Content>
                             </Card.Content>
                         </Card>
+                            {event.users.forEach(user => console.log((user.username)))}  
                         <br />
+
                         </div>
                     )
                 }
-                {console.log(this.state.events)}
             </div>
         )
     }

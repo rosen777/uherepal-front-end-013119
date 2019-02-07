@@ -5,18 +5,31 @@ import API from './API';
 
 export default class CityInfo extends PureComponent {
 
+    state = {
+        joinSwitch: false,
+    }
 
 
-    handleSubmit = () => {
-        console.log(this.props)
+    handleSubmit = event => {
+        debugger
         let newUserEventObject = {
             "event_id": this.props.info.id
         }
+        event.target.disabled = true
+        event.target.innerText = 'JOINED'
+        API.joinEvent(newUserEventObject).then(() => {
+            this.props.fetchEvents()
+        })
 
-        API.joinEvent(newUserEventObject)
+        this.setState({
+            joinSwitch: true
+        })
 
     }
 
+    joinedUser = () => {
+        
+    }
 
 
     render() {
@@ -27,6 +40,9 @@ export default class CityInfo extends PureComponent {
         ${info.date}`;
         const capacity = `${info.capacity}`
         const remainingSpots = `${capacity} spots left`
+        // const disableJoinButton = this.state.joinSwitch === true
+
+        console.log(info)
 
         return (
             <div>
@@ -37,7 +53,7 @@ export default class CityInfo extends PureComponent {
                     <div id='date'>
                     {info.date} 
                     </div>
-                    <div id='capcity'>
+                    <div id='capacity'>
                         {remainingSpots}
                     </div>
                     
@@ -49,9 +65,14 @@ export default class CityInfo extends PureComponent {
                 </div>
                 <img width={240} src={info.image} />
                 <div>
+                    {
+                    this.props.info.users.map(user => user.username).includes(this.props.username) ?
+                    <Button color='green' onClick={this.handleSubmit}
+                        disabled={true}> JOINED!</Button> : 
                     <Button inverted color='blue' onClick={this.handleSubmit}>
                         JOIN
-                    </Button>
+                    </Button> 
+                    }
                 </div>
             </div>
         );
