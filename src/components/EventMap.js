@@ -8,7 +8,9 @@ import CityInfo from '../city-info'
 
 // import EVENTS from '../data/events.json'
 
-import './Map.css'
+// import './Map.css'
+
+import './EventMap.css'
 
 // Importing the form from semantic UI
 import { Button, Form } from 'semantic-ui-react'
@@ -24,8 +26,20 @@ const navStyle = {
     top: 0,
     left: 0,
     padding: '10px',
-    datesRange: ''
+    datesRange: '',
 };
+
+
+const pickerStyle = {
+    width: 800,
+    margin: '1% 1% 1% 1%', 
+};
+
+const pickerGroup = {
+    borderTop: '1px solid grey',
+    marginTop: '1%'
+};
+
 
 const EVENTSURL = 'http://localhost:3001/api/v1/events'
 
@@ -243,7 +257,7 @@ export default class EventMap extends Component {
                         </div>
 
                     </MapGL>
-                <div className='date-range-input'>
+                    <div className='date-range-input' style={pickerGroup}>
                     <DatesRangeInput
                         name="datesRange"
                         placeholder="Select Start Date - End Date"
@@ -251,8 +265,8 @@ export default class EventMap extends Component {
                         value={this.state.datesRange}
                         iconPosition="left"
                         onChange={this.handleChange}
+                        style={pickerStyle}
                     />
-                        <Button onClick={this.filteredEventsRange}>Submit</Button>
                 </div>
 
                 </div>
