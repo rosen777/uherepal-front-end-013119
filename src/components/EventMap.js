@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import MapGL, {Marker, Popup, NavigationControl} from 'react-map-gl'
 
+import moment from 'moment'
+
 import CityPin from '../city-pin'
 import CityInfo from '../city-info'
 
@@ -9,7 +11,9 @@ import CityInfo from '../city-info'
 import './Map.css'
 
 // Importing the form from semantic UI
-import { Form } from 'semantic-ui-react'
+import { Button, Form } from 'semantic-ui-react'
+
+import { DateInput, TimeInput, DateTimeInput, DatesRangeInput } from 'semantic-ui-calendar-react';
 
 import API from '../API'
 
@@ -20,6 +24,7 @@ const navStyle = {
     top: 0,
     left: 0,
     padding: '10px',
+    datesRange: ''
 };
 
 const EVENTSURL = 'http://localhost:3001/api/v1/events'
@@ -38,6 +43,9 @@ export default class EventMap extends Component {
         eventLong: 0,
         events: [],
         eventSwitch: false,
+        dateTime: '',
+        datesRange: '',
+        filteredEventsRange: [],
         viewport: {
             latitude: 37.773,
             longitude: -122.481,
@@ -65,7 +73,47 @@ export default class EventMap extends Component {
     }
 
     
+    handleChange = (event, { name, value }) => {
+        if (this.state.hasOwnProperty(name)) {
+            this.setState({ [name]: value });
+        }
+    }
 
+
+    setDate = () => {
+        this.setState({
+            datesRange: this.state.events.date
+        })
+    }
+
+    filteredEventsRange = () => {
+        const range = this.state.datesRange.split(' - ')
+        const minDate = moment(range[0], 'DD-MM-YYYY')
+        const maxDate = moment(range[1], 'DD-MM-YYYY')
+        const eventDate = moment(this.state.events.date)
+        let filteredEvents = []
+        console.log(minDate)
+        console.log(maxDate)
+        console.log(eventDate)
+
+        if (!this.state.datesRange) {
+            filteredEvents = this.state.events.filter(event => {
+                return moment(event.date).isAfter(moment())
+            }
+                )
+        } else {
+             filteredEvents = this.state.events.filter(event => {
+                return moment(event.date).isBetween(minDate, maxDate)
+            }
+            
+            )
+
+        }
+
+        console.log(filteredEvents)
+        return filteredEvents
+
+    }
      
 
     handleSubmit = (event) => {
@@ -74,7 +122,7 @@ export default class EventMap extends Component {
                 "title": event.target.title.value,
                 "capacity": event.target.capacity.value,
                 "image": event.target.image.value,
-                "date": event.target.date.value,
+                "date": this.state.dateTime,
                 "latitude": this.state.eventLat,
                 "longitude": this.state.eventLong
             }
@@ -121,7 +169,9 @@ export default class EventMap extends Component {
                 longitude={Number(city.longitude)}
                 latitude={Number(city.latitude)} 
                 >
-                <CityPin size={20} onClick={() => this.setState({ popupInfo: city })} />
+                <CityPin size={20} onClick={
+                    () => this.setState({ popupInfo: city })
+                    } />
             </Marker>
         );
     }
@@ -155,7 +205,14 @@ export default class EventMap extends Component {
                         <Form.Input fluid label="title" placeholder="title" name="title" />
                         <Form.Input fluid label="capacity" placeholder="capacity" name="capacity" />
                         <Form.Input fluid label="image" placeholder="Enter an image URL" name="image" />
-                        <Form.Input fluid label="date" placeholder="date" name="date" />
+                        <DateTimeInput
+                            label="date / time"
+                            name="dateTime"
+                            placeholder="Select Date and Time"
+                            value={this.state.dateTime}
+                            iconPosition="left"
+                            onChange={this.handleChange}
+                        />
                         <Form.Input fluid label="latitude" placeholder={`${this.state.eventLat}`} name="latitude" />
                         <Form.Input fluid label="longitude" placeholder={`${this.state.eventLong}`} name="longitude" />
                     </Form.Group>
@@ -170,14 +227,14 @@ export default class EventMap extends Component {
                     <MapGL
                         {...this.state.viewport}
                         width="100vw"
-                        height="100vh"
+                        height="80vh"
                         mapStyle="mapbox://styles/rtoshev/cjrjnz97a2svr2snmi3h9pe5s"
                         onViewportChange={this._updateViewport}
                         mapboxApiAccessToken={TOKEN}
                         onClick={this._onClick}
                         >
                         
-                        {this.state.events.map(this._renderCityMarker)}
+                        {this.filteredEventsRange().map(this._renderCityMarker)}
 
                         {this._renderPopup()}
 
@@ -186,6 +243,18 @@ export default class EventMap extends Component {
                         </div>
 
                     </MapGL>
+                <div className='date-range-input'>
+                    <DatesRangeInput
+                        name="datesRange"
+                        placeholder="Select Start Date - End Date"
+                        minDate={moment()}
+                        value={this.state.datesRange}
+                        iconPosition="left"
+                        onChange={this.handleChange}
+                    />
+                        <Button onClick={this.filteredEventsRange}>Submit</Button>
+                </div>
+
                 </div>
             </div>
         );

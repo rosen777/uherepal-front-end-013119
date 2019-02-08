@@ -3,6 +3,11 @@ import React, { PureComponent } from 'react';
 import { Button } from 'semantic-ui-react'
 import API from './API';
 
+import { Icon } from 'semantic-ui-react'
+
+import Moment from 'react-moment';
+import 'moment-timezone';
+
 export default class CityInfo extends PureComponent {
 
 
@@ -38,9 +43,15 @@ export default class CityInfo extends PureComponent {
                         <b> {info.title}</b>
                     </div>
                     <div id='date'>
-                    {info.date} 
+                        <Icon name='calendar alternate' />
+                        <Moment format="DD/MM/YYYY">{info.date}</Moment> 
+                    </div>
+                    <div id='time'>
+                        <Icon name='clock' />
+                        <Moment format="HH:mm">{info.date}</Moment>
                     </div>
                     <div id='capacity'>
+                        <Icon name='users' />
                         {remainingSpots}
                     </div>
                     

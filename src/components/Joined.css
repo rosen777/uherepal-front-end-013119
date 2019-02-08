@@ -1,3 +1,7 @@
+.history-heading {
+    color: #388ffb;
+}
+
 .event-card-capacity{
     color: grey;
 }
@@ -6,12 +10,13 @@
     color: grey;
 }
 
-.history-heading {
-    color: #388ffb;
+.event-card-time {
+    color: grey;
 }
 
 .user-list {
     padding-top: 1%;
     padding-bottom: 1%;
-    margin-left: 10%;
+    margin-left: 23%;
+    margin-right: 13%;
 }
