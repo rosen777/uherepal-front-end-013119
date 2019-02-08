@@ -51,9 +51,27 @@ static createUser(user) {
             newEventObject
         )
    
-}
+        }
     )
 }
+
+    static joinEvent(newUserEventObject) {
+        console.log(newUserEventObject)
+
+        return fetch
+            ('http://localhost:3001/api/v1/joinevent', {
+             method: 'POST', 
+             headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('token')
+        }, 
+             body: JSON.stringify(
+                 newUserEventObject
+                )
+            }
+        )
+    }
+    
 
 }
 
