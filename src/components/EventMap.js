@@ -6,6 +6,7 @@ import moment from 'moment'
 import CityPin from '../city-pin'
 import CityInfo from '../city-info'
 
+
 // import EVENTS from '../data/events.json'
 
 // import './Map.css'
@@ -37,8 +38,13 @@ const pickerStyle = {
 
 const pickerGroup = {
     borderTop: '1px solid grey',
-    marginTop: '1%'
+    marginTop: '0.5%'
 };
+
+const dateTimeStyle = {
+    color: 'grey',
+    marginTop: '0.5%'
+}
 
 
 const EVENTSURL = 'http://localhost:3001/api/v1/events'
@@ -106,9 +112,6 @@ export default class EventMap extends Component {
         const maxDate = moment(range[1], 'DD-MM-YYYY')
         const eventDate = moment(this.state.events.date)
         let filteredEvents = []
-        console.log(minDate)
-        console.log(maxDate)
-        console.log(eventDate)
 
         if (!this.state.datesRange) {
             filteredEvents = this.state.events.filter(event => {
@@ -124,7 +127,6 @@ export default class EventMap extends Component {
 
         }
 
-        console.log(filteredEvents)
         return filteredEvents
 
     }
@@ -258,6 +260,7 @@ export default class EventMap extends Component {
 
                     </MapGL>
                     <div className='date-range-input' style={pickerGroup}>
+                    <h1 style={dateTimeStyle}>Select event start and end date:</h1>
                     <DatesRangeInput
                         name="datesRange"
                         placeholder="Select Start Date - End Date"

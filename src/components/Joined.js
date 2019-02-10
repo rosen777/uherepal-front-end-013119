@@ -2,18 +2,17 @@ import React, {Component} from 'react'
 
 import API from '../API'
 
-import { Card, Image, Icon} from 'semantic-ui-react'
+import { Card, Image, Icon, Button} from 'semantic-ui-react'
 
 import Moment from 'react-moment';
 import 'moment-timezone';
-
-
 
 import './Joined.css'
 
 class Joined extends Component {
     state = {
-        events: []
+        events: [],
+        event_id: 0
     }
 
     getEvents() {
@@ -25,8 +24,6 @@ class Joined extends Component {
         )
     }
 
-
-
     style = {
         display: 'flex',
         flexDirection: 'column',
@@ -35,6 +32,7 @@ class Joined extends Component {
     }
 
     componentDidMount() {
+
         const { username, history } = this.props
 
         if (!username) {
@@ -43,6 +41,30 @@ class Joined extends Component {
             this.getEvents()
         }
     }
+
+    setEventId = (event) => {
+
+    this.setState({
+        event_id: parseInt(event.target.id)
+    })
+
+
+    this.cancelEvent()
+
+    }
+
+    cancelEvent = (id) => {
+
+
+        let deletedUserEventObject = {
+            "event_id": parseInt(id)
+        }
+
+        API.cancelEvent(deletedUserEventObject)
+
+    }
+
+   
 
     render() {
         const { events } = this.state
@@ -76,23 +98,26 @@ class Joined extends Component {
                                 <Icon name='users' color='grey'/>
                                     {event.users.length}    
                                     {` ${event.users.map(user => (user.username)).join(', ')}`}
-                        
                                 </Card.Description>
                                 </a>
                                 <a>
                                 <Card.Description className='event-card-date'>
                                     <Icon name='calendar alternate' color='grey' />
                                     <Moment format="DD/MM/YYYY">
-                                        {dateToFormat}
+                                        {event.date}
                                     </Moment>
                                 </Card.Description>
                                 <Card.Description className='event-card-time'>
                                     <Icon name='clock' color='grey' />
                                     <Moment format="HH:mm">
-                                        {dateToFormat}
+                                        {event.date}
                                     </Moment>
                                 </Card.Description>
                                 </a>
+                                <Button 
+                                id={event.id}
+                                onClick={() => this.cancelEvent(event.id)} inverted color='red'
+                                >Cancel</Button>
                                 </Card.Content>
                                 </Card.Content>
                             </Card>
