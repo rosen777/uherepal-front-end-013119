@@ -65,7 +65,7 @@ class App extends Component {
     return (
       <div className="App">
         <Router>
-        <div style={{ borderBottom: '2px solid black', paddingBottom: '10px', marginBottom: '12px'}}>
+        <div style={{ paddingBottom: '10px', marginBottom: '12px'}}>
           <NavBar signout={this.signout} />
             <Route exact path='/' component={routerProps =>
               <SignInForm {...routerProps} signin={this.signin} />} /> 

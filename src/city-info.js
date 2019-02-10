@@ -34,8 +34,6 @@ export default class CityInfo extends PureComponent {
         const capacity = `${info.capacity}`
         const remainingSpots = `${capacity} spots left`
 
-        console.log(info)
-
         return (
             <div>
                 <div>

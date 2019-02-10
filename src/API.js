@@ -85,6 +85,21 @@ static createUser(user) {
              }
         )
     }
+
+    static deleteEvent(deletedEventObject) {
+        return fetch(`http://localhost:3001/api/v1/deleteevent`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('token')
+        },
+        body: JSON.stringify(
+            deletedEventObject
+               ) 
+           }
+        )
+    }
+    
     
 
 }

@@ -140,7 +140,8 @@ export default class EventMap extends Component {
                 "image": event.target.image.value,
                 "date": this.state.dateTime,
                 "latitude": this.state.eventLat,
-                "longitude": this.state.eventLong
+                "longitude": this.state.eventLong,
+                "host": this.props.username
             }
             this.setState({
                 events: [...this.state.events, newEventObject

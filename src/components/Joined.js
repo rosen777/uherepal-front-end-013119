@@ -8,6 +8,7 @@ import Moment from 'react-moment';
 import 'moment-timezone';
 
 import './Joined.css'
+import moment from 'moment'
 
 class Joined extends Component {
     state = {
@@ -42,26 +43,37 @@ class Joined extends Component {
         }
     }
 
-    setEventId = (event) => {
+    cancelEvent = (event) => {
 
-    this.setState({
-        event_id: parseInt(event.target.id)
-    })
+        let deletedUserEventObject = {
+            "event_id": parseInt(event.target.id)
+        }
 
+        event.target.disabled = true
+        event.target.innerText = 'CANCELLED'
+    
 
-    this.cancelEvent()
+        API.cancelEvent(deletedUserEventObject).then(() => {
+            this.getEvents()
+        })
 
     }
 
-    cancelEvent = (id) => {
-
-
-        let deletedUserEventObject = {
-            "event_id": parseInt(id)
+    deleteEvent = (event) => {
+        let deletedEventObject = {
+            "id": parseInt(event.target.id),
+            "event_id": parseInt(event.target.id),
+            "user_id": event.target.user_id
         }
+        
+        event.target.disabled = true
+        event.target.innerText = 'EVENT DELETED'
 
-        API.cancelEvent(deletedUserEventObject)
-
+        API.deleteEvent(deletedEventObject) .then(()=> {
+            this.getEvents()
+        }
+            
+        )
     }
 
    
@@ -78,7 +90,7 @@ class Joined extends Component {
             <span style={this.style} className='user-list'>
                 <h3 className='history-heading'>{`${userNameCap}'s History of Events`}</h3>
                 {events.length === 0 && <p>Sorry, you don't have any events.</p>}
-                {
+                {  
                     <Card.Group>
                     {
                     events.map(event =>
@@ -91,8 +103,7 @@ class Joined extends Component {
                             </Card.Header>
                                 <Card.Content extra>
                                 <a>
-                                <Card.Description>
-                                {`${event.users.map(user =>  (user.username))}`}
+                            <Card.Description className='event-card-created-by'><b>Created By: </b><span className='event-card-host'>{`${event.host}`}</span>
                                 </Card.Description>
                                 <Card.Description className='event-card-capacity'>
                                 <Icon name='users' color='grey'/>
@@ -116,19 +127,28 @@ class Joined extends Component {
                                 </a>
                                 <Button 
                                 id={event.id}
-                                onClick={() => this.cancelEvent(event.id)} inverted color='red'
+                                onClick={this.cancelEvent} inverted color='red'
                                 >Cancel</Button>
                                 </Card.Content>
+                                <Card.Content className='event-card-delete'>
+                                {username === event.host ? <Button id={event.id} onClick={this.deleteEvent} color='red'> Delete Event</Button> : null}
                                 </Card.Content>
+                                </Card.Content>
+                            
+
                             </Card>
+
+
                     )
                  }
                     </Card.Group>
                     
                 }
              
-             
+               
             </span>
+
+           
         )
     }
 }
