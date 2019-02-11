@@ -71,10 +71,9 @@ class Joined extends Component {
 
         API.deleteEvent(deletedEventObject) .then(()=> {
             this.getEvents()
-        }
-            
-        )
-    }
+        } 
+    )
+}
 
    
 

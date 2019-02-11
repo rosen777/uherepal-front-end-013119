@@ -73,6 +73,11 @@ export default class EventMap extends Component {
             bearing: 0,
             pitch: 0,
         },
+        mapEvents: {},
+        marker: {
+            latitude: 37.773,
+            longitude: -122.481,
+        },
         popupInfo: null
     }
 
@@ -151,6 +156,33 @@ export default class EventMap extends Component {
             
     }
 
+    _logDragEvent(name, event) {
+        this.setState({
+            events: {
+                ...this.state.mapEvents,
+                [name]: event.lngLat,
+            }
+        })
+    }
+
+    _onMarkerDragStart = (event) => {
+        this._logDragEvent('onDragStart', event)
+    }
+
+    _onMarkerDrag = (event) => {
+        this._logDragEvent('onDrag', event)
+    }
+
+    _onMarkerDragEnd = (event) => {
+        this._logDragEvent('onDragEnd', event)
+        this.setState({
+            marker: {
+                longitude: event.lngLat[0],
+                latitude: event.lngLat[1],
+            }
+        })
+    }
+
     _updateViewport = (viewport) => {
         this.setState({ viewport })
     }
@@ -162,8 +194,8 @@ export default class EventMap extends Component {
                 longitude: position.coords.longitude,
                 latitude: position.coords.latitude,
                  zoom: 15,
-            });
-        });
+            })
+        })
     }
 
     _onClick = (params) => {
@@ -185,10 +217,17 @@ export default class EventMap extends Component {
                 key={`marker-${index}`}
                 longitude={Number(city.longitude)}
                 latitude={Number(city.latitude)} 
-                >
-                <CityPin size={20} onClick={
+                offsetTop={-20}
+                offsetLeft={-10}
+                draggable
+                onDragStart={this._onMarkerDragStart}
+                onDrag={this._onMarkerDrag}
+                onDragEnd={this._onMarkerDragEnd}>
+                <CityPin size={20} 
+                onClick={
                     () => this.setState({ popupInfo: city })
-                    } />
+                } 
+                />
             </Marker>
         );
     }
@@ -209,6 +248,33 @@ export default class EventMap extends Component {
             </Popup>
         );
     }
+
+    _logDragEvent(name, event) {
+        this.setState({
+            events: {
+                ...this.state.events,
+                [name]: event.lngLat,
+            }
+        })
+    }
+
+    _onMarkerDragStart = (event) => {
+        this._logDragEvent('onDragStart', event);
+    };
+
+    _onMarkerDrag = (event) => {
+        this._logDragEvent('onDrag', event);
+    };
+
+    _onMarkerDragEnd = (event) => {
+        this._logDragEvent('onDragEnd', event);
+        this.setState({
+            marker: {
+                longitude: event.lngLat[0],
+                latitude: event.lngLat[1],
+            }
+        });
+    };
 
     render() {
 
@@ -249,6 +315,7 @@ export default class EventMap extends Component {
                         onViewportChange={this._updateViewport}
                         mapboxApiAccessToken={TOKEN}
                         onClick={this._onClick}
+                        onMouseOver={this._renderPopup}
                         >
                         
                         {this.filteredEventsRange().map(this._renderCityMarker)}

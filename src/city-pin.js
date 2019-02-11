@@ -22,6 +22,7 @@ export default class CityPin extends PureComponent {
                 style={{ ...pinStyle, 
                 transform: `translate(${-size / 2}px,${-size}px)` }}
                 onClick={onClick}
+                onMouseOver={() => setTimeout(onClick, 2000)}
             >
                 <path d={ICON} />
             </svg>
