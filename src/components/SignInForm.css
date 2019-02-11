@@ -1,0 +1,15 @@
+.border-gradient {
+ width: 1px;
+}
+
+.login_text{
+    display: inline-block;
+}
+
+.border-gradient-purple {
+    display: block;
+    width: 100%;
+    height: 5px;
+  background: linear-gradient(to left, #743ad5 0%, #d53a9d 100%);
+  padding-right: 7%;
+}

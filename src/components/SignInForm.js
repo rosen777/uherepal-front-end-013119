@@ -5,8 +5,11 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import { Link } from 'react-router-dom'
 
+import './SignInForm.css'
+
 
 import API from '../API'
+
 
 class SignInForm extends React.Component {
     state = {
@@ -38,10 +41,17 @@ class SignInForm extends React.Component {
         const { handleChange, handleSubmit } = this
 
         return (
+
             <div>
-                {
+                <div>
+                    <h1 className="login_text">
+                    Log in
+                    <span className='border-gradient border-gradient-purple'>
+                        </span>
+                    </h1>
                     
-                }
+                </div>
+
                 <TextField
                     id='usernameInput'
                     label='Username'
@@ -60,13 +70,17 @@ class SignInForm extends React.Component {
                     name='password'
                     type='password'
                 />
-                <br />
+                <br /> 
                 <Button onClick={handleSubmit} variant='contained' color='primary'>
-                    SUBMIT
+                    LOGIN
                 </Button>
+                
 
                 <h1>Don't have an account yet? <Link to='/signup'> Signup Now! </Link> </h1>
+                
             </div>
+     
+            
         )
     }
 }

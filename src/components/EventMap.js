@@ -5,6 +5,7 @@ import moment from 'moment'
 
 import CityPin from '../city-pin'
 import CityInfo from '../city-info'
+import MarkerPin from '../marker-pin'
 
 
 // import EVENTS from '../data/events.json'
@@ -150,19 +151,19 @@ export default class EventMap extends Component {
             }
             this.setState({
                 events: [...this.state.events, newEventObject
-                ]
+                ],
+                eventSwitch: false
             })
             API.createEvent(newEventObject).then(this.fetchEvents)
             
     }
 
-    _logDragEvent(name, event) {
+    _logDragEvent = (name, event) => {
         this.setState({
-            events: {
-                ...this.state.mapEvents,
-                [name]: event.lngLat,
-            }
-        })
+            eventLong: event.lngLat[0],
+            eventLat: event.lngLat[1],
+            
+        })   
     }
 
     _onMarkerDragStart = (event) => {
@@ -176,10 +177,9 @@ export default class EventMap extends Component {
     _onMarkerDragEnd = (event) => {
         this._logDragEvent('onDragEnd', event)
         this.setState({
-            marker: {
-                longitude: event.lngLat[0],
-                latitude: event.lngLat[1],
-            }
+                eventLong: event.lngLat[0],
+                eventLat: event.lngLat[1],
+            
         })
     }
 
@@ -217,12 +217,7 @@ export default class EventMap extends Component {
                 key={`marker-${index}`}
                 longitude={Number(city.longitude)}
                 latitude={Number(city.latitude)} 
-                offsetTop={-20}
-                offsetLeft={-10}
-                draggable
-                onDragStart={this._onMarkerDragStart}
-                onDrag={this._onMarkerDrag}
-                onDragEnd={this._onMarkerDragEnd}>
+                >
                 <CityPin size={20} 
                 onClick={
                     () => this.setState({ popupInfo: city })
@@ -230,6 +225,21 @@ export default class EventMap extends Component {
                 />
             </Marker>
         );
+    }
+
+    renderNewMarker = (city, index) => {
+        if(this.state.eventSwitch === true) {
+            return (<Marker
+                key={`marker-${index}`}
+                longitude={(this.state.eventLong)}
+                latitude={(this.state.eventLat)}
+                draggable
+                onDragStart={this._onMarkerDragStart}
+                onDrag={this._onMarkerDrag}
+                onDragEnd={this._onMarkerDragEnd} >
+                <MarkerPin size={20} />
+            </Marker>)
+        }
     }
 
     _renderPopup() {
@@ -319,6 +329,8 @@ export default class EventMap extends Component {
                         >
                         
                         {this.filteredEventsRange().map(this._renderCityMarker)}
+
+                        {this.renderNewMarker()}
 
                         {this._renderPopup()}
 
