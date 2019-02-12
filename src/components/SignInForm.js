@@ -1,12 +1,14 @@
 
 import React from 'react'
 
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
+import { Button, Input } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+
+import './SignInForm.css'
 
 
 import API from '../API'
+
 
 class SignInForm extends React.Component {
     state = {
@@ -38,35 +40,48 @@ class SignInForm extends React.Component {
         const { handleChange, handleSubmit } = this
 
         return (
+
             <div>
-                {
-                    
-                }
-                <TextField
-                    id='usernameInput'
-                    label='Username'
+                <div>
+                    <h1 className="login_text">
+                        Log in
+                    <span className='border-gradient border-gradient-purple'>
+                        </span>
+                    </h1>
+
+                </div>
+                <Input
+                    className='input_username'
+                    label={{ icon: 'asterisk' }}
+                    labelPosition='left corner'
+                    placeholder='Username...'
                     value={username}
                     onChange={handleChange}
                     margin='normal'
-                    name='username'
-                />
+                    name='username' />
                 <br />
-                <TextField
-                    id='passwordInput'
-                    label='Password'
+                <Input
+                    className='input_password'
+                    label={{ icon: 'asterisk' }}
+                    labelPosition='left corner'
+                    placeholder='Password...'
                     value={password}
                     onChange={handleChange}
                     margin='normal'
                     name='password'
-                    type='password'
-                />
+                    type='password' />
                 <br />
-                <Button onClick={handleSubmit} variant='contained' color='primary'>
-                    SUBMIT
+                <div className='container-btn'>
+                    <Button color='purple' className='login_btn' onClick={handleSubmit}>
+                        LOGIN
                 </Button>
+                </div>
 
                 <h1>Don't have an account yet? <Link to='/signup'> Signup Now! </Link> </h1>
+
             </div>
+     
+            
         )
     }
 }

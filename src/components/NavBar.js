@@ -16,6 +16,7 @@ return (
         <li><Link to="/signup">Signup</Link></li>
         <li><Link to="/joined">My History</Link></li>
         <li><Link to="/eventmap">Event Map</Link></li>
+        <li><Link to="/profile">Profile</Link></li>
         <li><Link to='' onClick={signout}>Signout</Link></li>
     </ul>
         </div>

@@ -1,0 +1,34 @@
+.border-gradient {
+ width: 1px;
+}
+
+.login_text{
+    display: inline-block;
+}
+
+.border-gradient-purple {
+    display: block;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to left, #743ad5 0%, #d53a9d 100%);
+    padding-right: 7%;
+}
+
+.input_username {
+    width: 80%;
+    margin: 2% 1%;
+}
+
+.input_password {
+    width: 80%;
+    margin: 1% 1%;
+    margin-bottom: 2%;
+}
+
+.login_btn {
+    width: 10%;
+}
+
+.container-btn {
+    margin-left: 1%;
+}

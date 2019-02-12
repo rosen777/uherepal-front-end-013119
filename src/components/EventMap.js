@@ -5,6 +5,8 @@ import moment from 'moment'
 
 import CityPin from '../city-pin'
 import CityInfo from '../city-info'
+import MarkerPin from '../marker-pin'
+
 
 // import EVENTS from '../data/events.json'
 
@@ -37,8 +39,13 @@ const pickerStyle = {
 
 const pickerGroup = {
     borderTop: '1px solid grey',
-    marginTop: '1%'
+    marginTop: '0.5%'
 };
+
+const dateTimeStyle = {
+    color: 'grey',
+    marginTop: '0.5%'
+}
 
 
 const EVENTSURL = 'http://localhost:3001/api/v1/events'
@@ -67,11 +74,16 @@ export default class EventMap extends Component {
             bearing: 0,
             pitch: 0,
         },
+        mapEvents: {},
+        marker: {
+            latitude: 37.773,
+            longitude: -122.481,
+        },
         popupInfo: null
     }
 
     fetchEvents = () => {
-        fetch(EVENTSURL)
+        return fetch(EVENTSURL)
             .then(resp => resp.json())
             .then(result => this.setState({
                 events: result
@@ -106,9 +118,6 @@ export default class EventMap extends Component {
         const maxDate = moment(range[1], 'DD-MM-YYYY')
         const eventDate = moment(this.state.events.date)
         let filteredEvents = []
-        console.log(minDate)
-        console.log(maxDate)
-        console.log(eventDate)
 
         if (!this.state.datesRange) {
             filteredEvents = this.state.events.filter(event => {
@@ -124,7 +133,6 @@ export default class EventMap extends Component {
 
         }
 
-        console.log(filteredEvents)
         return filteredEvents
 
     }
@@ -138,14 +146,54 @@ export default class EventMap extends Component {
                 "image": event.target.image.value,
                 "date": this.state.dateTime,
                 "latitude": this.state.eventLat,
-                "longitude": this.state.eventLong
+                "longitude": this.state.eventLong,
+                "host": this.props.username
             }
             this.setState({
                 events: [...this.state.events, newEventObject
-                ]
+                ],
+                eventSwitch: false
             })
-            API.createEvent(newEventObject).then(this.fetchEvents)
+            API.createEvent(newEventObject)
+                .then(event => {
+                    this.fetchEvents()
+                    this.joinEvent(event.id)
+                })
             
+    }
+
+    joinEvent = (id) => {
+        console.log(id)
+        let newUserEventObject = {
+            "event_id": id
+        }
+
+        API.joinEvent(newUserEventObject).then(this.fetchEvents)
+
+    }
+
+    _logDragEvent = (name, event) => {
+        this.setState({
+            eventLong: event.lngLat[0],
+            eventLat: event.lngLat[1],
+            
+        })   
+    }
+
+    _onMarkerDragStart = (event) => {
+        this._logDragEvent('onDragStart', event)
+    }
+
+    _onMarkerDrag = (event) => {
+        this._logDragEvent('onDrag', event)
+    }
+
+    _onMarkerDragEnd = (event) => {
+        this._logDragEvent('onDragEnd', event)
+        this.setState({
+                eventLong: event.lngLat[0],
+                eventLat: event.lngLat[1]
+        })
     }
 
     _updateViewport = (viewport) => {
@@ -159,8 +207,8 @@ export default class EventMap extends Component {
                 longitude: position.coords.longitude,
                 latitude: position.coords.latitude,
                  zoom: 15,
-            });
-        });
+            })
+        })
     }
 
     _onClick = (params) => {
@@ -183,11 +231,28 @@ export default class EventMap extends Component {
                 longitude={Number(city.longitude)}
                 latitude={Number(city.latitude)} 
                 >
-                <CityPin size={20} onClick={
+                <CityPin size={20} 
+                onClick={
                     () => this.setState({ popupInfo: city })
-                    } />
+                } 
+                />
             </Marker>
         );
+    }
+
+    renderNewMarker = (city, index) => {
+        if(this.state.eventSwitch === true) {
+            return (<Marker
+                key={`marker-${index}`}
+                longitude={(this.state.eventLong)}
+                latitude={(this.state.eventLat)}
+                draggable
+                onDragStart={this._onMarkerDragStart}
+                onDrag={this._onMarkerDrag}
+                onDragEnd={this._onMarkerDragEnd} >
+                <MarkerPin size={20} />
+            </Marker>)
+        }
     }
 
     _renderPopup() {
@@ -202,10 +267,37 @@ export default class EventMap extends Component {
                 onClose={() => this.setState({ 
                     popupInfo: null 
                     })} >
-                <CityInfo info={popupInfo} username={this.props.username} fetchEvents={this.fetchEvents}/>
+                <CityInfo info={popupInfo} username={this.props.username} fetchEvents={this.fetchEvents} />
             </Popup>
         );
     }
+
+    _logDragEvent(name, event) {
+        this.setState({
+            events: {
+                ...this.state.events,
+                [name]: event.lngLat,
+            }
+        })
+    }
+
+    _onMarkerDragStart = (event) => {
+        this._logDragEvent('onDragStart', event);
+    };
+
+    _onMarkerDrag = (event) => {
+        this._logDragEvent('onDrag', event);
+    };
+
+    _onMarkerDragEnd = (event) => {
+        this._logDragEvent('onDragEnd', event);
+        this.setState({
+            marker: {
+                longitude: event.lngLat[0],
+                latitude: event.lngLat[1],
+            }
+        });
+    };
 
     render() {
 
@@ -246,9 +338,12 @@ export default class EventMap extends Component {
                         onViewportChange={this._updateViewport}
                         mapboxApiAccessToken={TOKEN}
                         onClick={this._onClick}
+                        onMouseOver={this._renderPopup}
                         >
                         
                         {this.filteredEventsRange().map(this._renderCityMarker)}
+
+                        {this.renderNewMarker()}
 
                         {this._renderPopup()}
 
@@ -258,6 +353,7 @@ export default class EventMap extends Component {
 
                     </MapGL>
                     <div className='date-range-input' style={pickerGroup}>
+                    <h1 style={dateTimeStyle}>Select event start and end date:</h1>
                     <DatesRangeInput
                         name="datesRange"
                         placeholder="Select Start Date - End Date"

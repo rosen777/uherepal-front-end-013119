@@ -40,23 +40,41 @@ static createUser(user) {
     }).then(resp => resp.json() )
 }
 
-    static createEvent(newEventObject) {
-    return fetch ('http://localhost:3001/api/v1/events', { 
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': localStorage.getItem('token')
-        },
-        body: JSON.stringify(
-            newEventObject
-        )
-   
-        }
-    )
+static updateUser(user, id) {
+    const token = localStorage.getItem('token')
+    return fetch(`http://localhost:3001/api/v1/users/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json',
+         'Authorization': token
+     },
+        body: JSON.stringify(user)
+    }).then(resp => resp.json())
 }
 
+    static updatePassword(password) {
+        const token = localStorage.getItem('token')
+        return fetch(`http://localhost:3001/api/v1/updatepassword`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+            body: JSON.stringify(password)
+        }).then(resp => resp.json())
+    }
+
+    static createEvent(newEventObject) {
+        return fetch ('http://localhost:3001/api/v1/events', { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('token')
+            },
+            body: JSON.stringify(newEventObject)
+        }).then(resp => resp.json())
+    }
+
     static joinEvent(newUserEventObject) {
-        console.log(newUserEventObject)
 
         return fetch
             ('http://localhost:3001/api/v1/joinevent', {
@@ -71,6 +89,36 @@ static createUser(user) {
             }
         )
     }
+
+    static cancelEvent(deletedUserEventObject) {
+        return fetch
+        ('http://localhost:3001/api/v1/cancelevent', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('token')
+            }, 
+                body: JSON.stringify(
+                deletedUserEventObject
+                )
+             }
+        )
+    }
+
+    static deleteEvent(deletedEventObject) {
+        return fetch(`http://localhost:3001/api/v1/deleteevent`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('token')
+        },
+        body: JSON.stringify(
+            deletedEventObject
+               ) 
+           }
+        )
+    }
+    
     
 
 }

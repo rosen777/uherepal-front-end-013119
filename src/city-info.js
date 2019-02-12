@@ -24,7 +24,6 @@ export default class CityInfo extends PureComponent {
 
     }
 
-
     render() {
         
         const { info } = this.props;
@@ -33,8 +32,6 @@ export default class CityInfo extends PureComponent {
         ${info.date}`;
         const capacity = `${info.capacity}`
         const remainingSpots = `${capacity} spots left`
-
-        console.log(info)
 
         return (
             <div>
