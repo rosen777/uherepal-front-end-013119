@@ -49,6 +49,17 @@
     border-radius: .28571429rem;
     width: 80%;
     display: block;
+    color: #C7C7C7;
+}
+
+.container_password_title {
+    margin-left: 1%;
+    padding: 1%;
+    border: 1px solid rgba(34,36,38,.15);
+    border-radius: .28571429rem;
+    width: 80%;
+    display: block;
+    color: #C7C7C7;
 }
 
 .div-username {

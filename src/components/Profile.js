@@ -17,16 +17,15 @@ export default class Profile extends Component {
         passwordSwitch: false,
     }
 
-    handleSubmit = () => {
-        API.signin(this.state)
-            .then(data => {
-                if (data.error) {
-                    alert(data.error)
-                } else {
-                    this.props.signin(data)
-                    this.props.history.push('/joined')
-                }
-            })
+    handleUsernameSubmit = () => {
+        let newUserObject = {
+            "username": this.state.username
+        }
+        API.updateUser(newUserObject)
+    }
+
+    handlePasswordSubmit = () => {
+        API.updatePassword(this.state.password)
     }
 
     handleChange = (event) => {
@@ -49,7 +48,9 @@ export default class Profile extends Component {
 
     render() {
         const { username, password } = this.state
-        const { handleChange, handleSubmit } = this
+        const { handleChange, handleUsernameSubmit,
+        handlePasswordSubmit
+         } = this
 
         return (
 
@@ -93,7 +94,7 @@ export default class Profile extends Component {
                         margin='normal'
                         name='username' />
                     <span>
-                        <Button color='purple' className='login_btn' onClick={handleSubmit}>
+                        <Button color='purple' className='login_btn' onClick={handleUsernameSubmit}>
                             SUBMIT
                         </Button>
                     </span>
@@ -112,7 +113,7 @@ export default class Profile extends Component {
                     <span className='password_title'> Password: </span>
                 </div>
 
-                <div className='container_username_title'>
+                <div className='container_password_title'>
 
                     <span>
                         ••••••
@@ -142,7 +143,7 @@ export default class Profile extends Component {
                     type='password' />
             
                 <span>
-                    <Button color='purple' className='login_btn' onClick={handleSubmit}>
+                    <Button color='purple' className='login_btn' onClick={handlePasswordSubmit}>
                         SUBMIT
                     </Button>
                 </span>
@@ -152,10 +153,6 @@ export default class Profile extends Component {
                 </div>
                 }
                         
-                            
-         
-         
-
                 <div>
                     <div className='container-btn'>
                         <Button color='purple' className='signout_btn' onClick={this.props.signout}>

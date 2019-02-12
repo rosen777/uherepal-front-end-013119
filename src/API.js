@@ -41,12 +41,27 @@ static createUser(user) {
 }
 
 static updateUser(user, id) {
+    const token = localStorage.getItem('token')
     return fetch(`http://localhost:3001/api/v1/users/${id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json',
+         'Authorization': token
+     },
         body: JSON.stringify(user)
-    }).then(resp => resp.json())
+    }).then(resp => resp.json()).then(()=> console.log(user))
 }
+
+    static updatePassword(password, id) {
+        const token = localStorage.getItem('token')
+        return fetch(`http://localhost:3001/api/v1/users/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+            body: JSON.stringify(password)
+        }).then(resp => resp.json()).then(() => console.log(password))
+    }
 
     static createEvent(newEventObject) {
         return fetch ('http://localhost:3001/api/v1/events', { 
