@@ -24,7 +24,6 @@ export default class CityInfo extends PureComponent {
 
     }
 
-
     render() {
         
         const { info } = this.props;

@@ -40,20 +40,24 @@ static createUser(user) {
     }).then(resp => resp.json() )
 }
 
-    static createEvent(newEventObject) {
-    return fetch ('http://localhost:3001/api/v1/events', { 
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': localStorage.getItem('token')
-        },
-        body: JSON.stringify(
-            newEventObject
-        )
-
-        }
-    )
+static updateUser(user, id) {
+    return fetch(`http://localhost:3001/api/v1/users/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user)
+    }).then(resp => resp.json())
 }
+
+    static createEvent(newEventObject) {
+        return fetch ('http://localhost:3001/api/v1/events', { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('token')
+            },
+            body: JSON.stringify(newEventObject)
+        }).then(resp => resp.json())
+    }
 
     static joinEvent(newUserEventObject) {
 

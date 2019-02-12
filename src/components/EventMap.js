@@ -83,7 +83,7 @@ export default class EventMap extends Component {
     }
 
     fetchEvents = () => {
-        fetch(EVENTSURL)
+        return fetch(EVENTSURL)
             .then(resp => resp.json())
             .then(result => this.setState({
                 events: result
@@ -154,8 +154,22 @@ export default class EventMap extends Component {
                 ],
                 eventSwitch: false
             })
-            API.createEvent(newEventObject).then(this.fetchEvents)
+            API.createEvent(newEventObject)
+                .then(event => {
+                    this.fetchEvents()
+                    this.joinEvent(event.id)
+                })
             
+    }
+
+    joinEvent = (id) => {
+        console.log(id)
+        let newUserEventObject = {
+            "event_id": id
+        }
+
+        API.joinEvent(newUserEventObject).then(this.fetchEvents)
+
     }
 
     _logDragEvent = (name, event) => {
@@ -254,7 +268,7 @@ export default class EventMap extends Component {
                 onClose={() => this.setState({ 
                     popupInfo: null 
                     })} >
-                <CityInfo info={popupInfo} username={this.props.username} fetchEvents={this.fetchEvents}/>
+                <CityInfo info={popupInfo} username={this.props.username} fetchEvents={this.fetchEvents} />
             </Popup>
         );
     }

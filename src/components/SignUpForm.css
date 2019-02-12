@@ -2,7 +2,7 @@
  width: 1px;
 }
 
-.login_text{
+.signup_text{
     display: inline-block;
 }
 
@@ -25,8 +25,8 @@
     margin-bottom: 2%;
 }
 
-.login_btn {
-    width: 10%;
+.singup_btn {
+    width: 12%;
 }
 
 .container-btn {
