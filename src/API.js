@@ -48,19 +48,19 @@ static updateUser(user, id) {
          'Authorization': token
      },
         body: JSON.stringify(user)
-    }).then(resp => resp.json()).then(()=> console.log(user))
+    }).then(resp => resp.json())
 }
 
-    static updatePassword(password, id) {
+    static updatePassword(password) {
         const token = localStorage.getItem('token')
-        return fetch(`http://localhost:3001/api/v1/users/${id}`, {
+        return fetch(`http://localhost:3001/api/v1/updatepassword`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': token
             },
             body: JSON.stringify(password)
-        }).then(resp => resp.json()).then(() => console.log(password))
+        }).then(resp => resp.json())
     }
 
     static createEvent(newEventObject) {

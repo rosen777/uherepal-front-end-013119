@@ -192,8 +192,7 @@ export default class EventMap extends Component {
         this._logDragEvent('onDragEnd', event)
         this.setState({
                 eventLong: event.lngLat[0],
-                eventLat: event.lngLat[1],
-            
+                eventLat: event.lngLat[1]
         })
     }
 

@@ -17,15 +17,31 @@ export default class Profile extends Component {
         passwordSwitch: false,
     }
 
+    componentDidMount() {
+
+        const { username, history } = this.props
+
+        if (!username) {
+            history.push('/signin')
+        } 
+    }
+
     handleUsernameSubmit = () => {
+        const { history } = this.props
+
         let newUserObject = {
             "username": this.state.username
         }
-        API.updateUser(newUserObject)
+        API.updateUser(newUserObject).then(this.signout).then(history.push('/signin'))
     }
 
     handlePasswordSubmit = () => {
-        API.updatePassword(this.state.password)
+        const { history } = this.props
+
+        let newPasswordObject = {
+            "password": this.state.password
+        }
+        API.updatePassword(newPasswordObject).then(this.signout).then(history.push('/signin'))
     }
 
     handleChange = (event) => {
@@ -84,6 +100,9 @@ export default class Profile extends Component {
                     </div>
                      :
                     <div>
+                    <div className='div-username'>
+                        <span className='username_title'> Username: </span>
+                    </div>
                         <Input 
                         className = 'input_username'
                         label={{icon: 'asterisk'}} 
@@ -130,6 +149,9 @@ export default class Profile extends Component {
 
             :
                 <div>
+                    <div className='div-password'>
+                        <span className='password_title'> Password: </span>
+                    </div>
                     
                 <Input
                     className='input_password'

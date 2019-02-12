@@ -81,7 +81,7 @@ class App extends Component {
             <Route path='/eventmap' component={routerProps => <EventMap {...routerProps} username={this.state.username} /> 
             } /> 
             <Route path='/profile' component={routerProps =>
-              <Profile {...routerProps} signin={this.signin}
+              <Profile {...routerProps}
               username={this.state.username}
               signout={this.signout}
                />} />

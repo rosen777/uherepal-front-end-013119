@@ -8,7 +8,6 @@ import Moment from 'react-moment';
 import 'moment-timezone';
 
 import './Joined.css'
-import moment from 'moment'
 
 class Joined extends Component {
     state = {
@@ -69,7 +68,7 @@ class Joined extends Component {
         event.target.disabled = true
         event.target.innerText = 'EVENT DELETED'
 
-        API.deleteEvent(deletedEventObject) .then(()=> {
+        API.deleteEvent(deletedEventObject).then(()=> {
             this.getEvents()
         } 
     )
