@@ -7,6 +7,9 @@ import CityPin from '../city-pin'
 import CityInfo from '../city-info'
 import MarkerPin from '../marker-pin'
 
+import Spinner from './Spinner'
+import Images from './Images'
+
 
 // import EVENTS from '../data/events.json'
 
@@ -22,6 +25,9 @@ import { DateInput, TimeInput, DateTimeInput, DatesRangeInput } from 'semantic-u
 import API from '../API'
 
 const TOKEN = process.env.REACT_APP_MAPBOX_API_KEY
+let uploadedImageURL = ''
+
+
 
 const navStyle = {
     position: 'absolute',
@@ -50,6 +56,8 @@ const dateTimeStyle = {
 
 const EVENTSURL = 'http://localhost:3001/api/v1/events'
 
+const API_URL = `https://api.cloudinary.com/v1_1/dld2hjhpb/image/upload`
+
 const windowAlert = window.alert;
 
 
@@ -66,6 +74,7 @@ export default class EventMap extends Component {
         eventSwitch: false,
         dateTime: '',
         datesRange: '',
+        uploadingInfo: false,
         filteredEventsRange: [],
         viewport: {
             latitude: 37.773,
@@ -163,7 +172,6 @@ export default class EventMap extends Component {
     }
 
     joinEvent = (id) => {
-        console.log(id)
         let newUserEventObject = {
             "event_id": id
         }
@@ -299,6 +307,18 @@ export default class EventMap extends Component {
         });
     };
 
+    uploadWidget() {
+        //---- maybe not this ne: eslint-disable-next-line no-undef
+        // cloudinariy api is loaded directly in index.html
+        let uploadImage
+        window.cloudinary.openUploadWidget({ cloud_name: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME, upload_preset: 'uherepal', tags:['event'] },
+            function (error, result) {
+                console.log(result[0]['url']);
+                uploadedImageURL = result[0]['url']
+                console.log(uploadedImageURL)
+            })
+    }
+
     render() {
 
         return (
@@ -363,10 +383,15 @@ export default class EventMap extends Component {
                         onChange={this.handleChange}
                         style={pickerStyle}
                     />
+                        <button onClick={this.uploadWidget} className="upload-button">
+                            Add Event Image
+                          </button>
+                       
                 </div>
-
                 </div>
             </div>
+
+
         );
     }
 

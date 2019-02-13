@@ -52,9 +52,8 @@ class SignInForm extends React.Component {
                 </div>
                 <Input
                     className='input_username'
-                    label={{ icon: 'asterisk' }}
-                    labelPosition='left corner'
                     placeholder='Username...'
+                    icon='user' iconPosition='left'
                     value={username}
                     onChange={handleChange}
                     margin='normal'
@@ -62,9 +61,8 @@ class SignInForm extends React.Component {
                 <br />
                 <Input
                     className='input_password'
-                    label={{ icon: 'asterisk' }}
-                    labelPosition='left corner'
                     placeholder='Password...'
+                    icon='key' iconPosition='left'
                     value={password}
                     onChange={handleChange}
                     margin='normal'
