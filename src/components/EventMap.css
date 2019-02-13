@@ -15,3 +15,13 @@
     margin-right: 10%;
 }
 
+.add-image-container {
+    text-align: center;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    width: 100vw;
+}
+
+.upload-btn {
+    width: 20%;
+}
