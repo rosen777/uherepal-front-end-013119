@@ -15,14 +15,13 @@ import MarkerPin from '../marker-pin'
 import './EventMap.css'
 
 // Importing the form from semantic UI
-import { Button, Form, Icon } from 'semantic-ui-react'
+import { Button, Form } from 'semantic-ui-react'
 
-import { DateInput, TimeInput, DateTimeInput, DatesRangeInput } from 'semantic-ui-calendar-react';
+import { DateTimeInput, DatesRangeInput } from 'semantic-ui-calendar-react';
 
 import API from '../API'
 
 const TOKEN = process.env.REACT_APP_MAPBOX_API_KEY
-let uploadedImageURL = ''
 
 
 
@@ -40,20 +39,24 @@ const pickerStyle = {
     margin: '1% 1% 1% 1%', 
 };
 
-const pickerGroup = {
-    borderTop: '1px solid grey',
+const pickerGroupStyle = {
     marginTop: '0.5%'
 };
 
 const dateTimeStyle = {
-    color: 'grey',
+    marginBottom: '0.5%',
+}
+
+const dateRangeStyle = {
+    display: 'inline-block',
+}
+
+const dateRangeInputStyle = {
     marginTop: '0.5%'
 }
 
 
 const EVENTSURL = 'http://localhost:3001/api/v1/events'
-
-const API_URL = `https://api.cloudinary.com/v1_1/dld2hjhpb/image/upload`
 
 const windowAlert = window.alert;
 
@@ -123,7 +126,6 @@ export default class EventMap extends Component {
         const range = this.state.datesRange.split(' - ')
         const minDate = moment(range[0], 'DD-MM-YYYY')
         const maxDate = moment(range[1], 'DD-MM-YYYY')
-        const eventDate = moment(this.state.events.date)
         let filteredEvents = []
 
         if (!this.state.datesRange) {
@@ -309,7 +311,6 @@ export default class EventMap extends Component {
     uploadWidget = () => {
         //---- maybe not this ne: eslint-disable-next-line no-undef
         // cloudinariy api is loaded directly in index.html
-        let uploadImage
         window.cloudinary.openUploadWidget({ cloud_name: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME, upload_preset: 'uherepal', tags:['event'] },
           function (error, result) {
             if(result) {
@@ -361,7 +362,7 @@ export default class EventMap extends Component {
                         <Form.Input fluid label="longitude" placeholder={`${this.state.eventLong}`} name="longitude" />
                     </Form.Group>
               
-                    <Form.Button>Submit</Form.Button>
+                    <Form.Button color='blue'>Submit</Form.Button>
                     <br/>
                 </Form>
 
@@ -391,8 +392,12 @@ export default class EventMap extends Component {
                         </div>
 
                     </MapGL>
-                    <div className='date-range-input' style={pickerGroup}>
+                    <div className='date-range-input' style={pickerGroupStyle} >
+                    <div style={dateRangeStyle}>
                     <h1 style={dateTimeStyle}>Select event start and end date:</h1>
+                     <span className='border-gradient-purple'></span>
+                    </div>
+                    <div style={dateRangeInputStyle}>
                     <DatesRangeInput
                         name="datesRange"
                         placeholder="Select Start Date - End Date"
@@ -402,7 +407,7 @@ export default class EventMap extends Component {
                         onChange={this.handleChange}
                         style={pickerStyle}
                     />
-                       
+                    </div>   
                 </div>
                 </div>
             </div>

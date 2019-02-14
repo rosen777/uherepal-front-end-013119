@@ -48,8 +48,8 @@ class SignInForm extends React.Component {
                     <span className='border-gradient border-gradient-purple'>
                         </span>
                     </h1>
-
                 </div>
+
                 <Input
                     className='input_username'
                     placeholder='Username...'
@@ -72,11 +72,16 @@ class SignInForm extends React.Component {
                 <div className='container-btn'>
                     <Button color='purple' className='login_btn' onClick={handleSubmit}>
                         LOGIN
-                </Button>
+                    </Button>
                 </div>
 
-                <h1>Don't have an account yet? <Link to='/signup'> Signup Now! </Link> </h1>
-
+                <div className='account-text-container'>
+                    <h1>Don't have an account yet? 
+                        <Link to='/signup' className='signup-link'>
+                        <Button color='purple'> Sign Up</Button> 
+                        </Link>
+                    </h1>
+                </div>
             </div>
      
             

@@ -4,6 +4,7 @@
 
 .login_text{
     display: inline-block;
+    margin-left: 1%;
 }
 
 .border-gradient-purple {
@@ -30,5 +31,13 @@
 }
 
 .container-btn {
+    margin-left: 1%;
+}
+
+.account-text-container {
+    margin-left: 1%;
+}
+
+.signup-link {
     margin-left: 1%;
 }

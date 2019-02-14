@@ -6,9 +6,7 @@ import {
 } from 'react-router-dom'
 import NavBar from './components/NavBar'
 import './App.css';
-import Map from './components/Map'
 import SignInForm from './components/SignInForm';
-import Header from './components/Header'
 import Joined from './components/Joined'
 import SignUpForm from 
 './components/SignUpForm'
@@ -53,7 +51,7 @@ class App extends Component {
           this.props.history.push('/signin')
         } else {
           this.signin(data)
-          this.props.history.push('/')
+          this.props.history.push('/eventmap')
         }
       })
   }

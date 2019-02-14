@@ -1,5 +1,5 @@
 .history-heading {
-    color: #388ffb;
+    color: #007ADE;
 }
 
 .event-card-capacity{
@@ -31,4 +31,20 @@
 
 .event-card-delete {
     margin-top: 1%;
+}
+
+.events_text{
+    display: inline-block;
+}
+
+.border-gradient-purple {
+    display: block;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to left, #743ad5 0%, #d53a9d 100%);
+    padding-right: 7%;
+}
+
+.heading {
+    margin-left: 1%;
 }

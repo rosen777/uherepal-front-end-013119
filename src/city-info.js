@@ -19,20 +19,21 @@ export default class CityInfo extends PureComponent {
         event.target.disabled = true
         event.target.innerText = 'JOINED'
         API.joinEvent(newUserEventObject).then(() => {
+            this.calculateCapacity()
             this.props.fetchEvents()
         })
 
     }
 
+    calculateCapacity = () => {
+       return this.props.info.capacity - this.props.info.users.length
+    }
+
     render() {
         
         const { info } = this.props;
-        const displayName = `${info.title}, 
-        \n 
-        ${info.date}`;
         const capacity = `${info.capacity}`
-        const remainingSpots = `${capacity} spots left`
-
+        const remainingSpots = `${this.calculateCapacity()} spots left`
         return (
             <div>
                 <div>
@@ -58,7 +59,7 @@ export default class CityInfo extends PureComponent {
                     </a> */}
 
                 </div>
-                <img width={240} src={info.image} />
+                <img width={240} src={info.image} alt={info.title}/>
                 <div>
                     {
                     this.props.info.users.map(user => user.username).includes(this.props.username) ?
