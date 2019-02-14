@@ -4,6 +4,8 @@ import { Icon, Label } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { Button, Input } from 'semantic-ui-react'
 
+
+
 import './Profile.css'
 
 import API from '../API'
@@ -71,8 +73,8 @@ export default class Profile extends Component {
         return (
 
             <div>
-                <div>
-                    <h1 className="signup_text">
+                <div className='profile'>
+                    <h1>
                         Profile
                     <span className='border-gradient border-gradient-purple'>
                         </span>
@@ -179,11 +181,16 @@ export default class Profile extends Component {
                     <div className='container-btn'>
                         <Button color='purple' className='signout_btn' onClick={this.props.signout}>
                             SIGN OUT
-                     </Button>
+                         </Button>
 
                     </div>
-                    <h1>Ready to see more events?<Link to='/eventmap'> Event Map </Link> </h1>
-
+                    <div className='account-text-container'>
+                        <h1>
+                            Ready to see more events?<Link to='/eventmap' className='map-link'> 
+                            <Button color='purple'>Event Map </Button>
+                            </Link>
+                        </h1>
+                    </div>
                 </div>
 
                 </div>

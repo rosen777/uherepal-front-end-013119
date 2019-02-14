@@ -5,8 +5,7 @@
     padding: 10px 30px;
     width: 100vw;
     height: 40px;
-    background-color: #388ffb;
-    overflow: hidden;
+    background-color: #0080D7;
 }
 
 .menu_logo a {
@@ -37,5 +36,5 @@
 
 .menu ul li a:hover {
     background-color: #fff;
-    color: #388ffb;
+    color: #0080D7;
 }

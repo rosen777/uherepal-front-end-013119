@@ -72,9 +72,15 @@ class SignUpForm extends React.Component {
                         SIGN UP
                 </Button>
                 </div>
-
-                <h1>Don't have an account yet? <Link to='/signup'> Signup Now! </Link> </h1>
-
+                <div className='account-text-container'>
+                <h1>Already have an account yet?
+                    <Link to='/signin' className='signin-link'>
+                            <Button color='purple'> 
+                                Login 
+                            </Button> 
+                    </Link> 
+                </h1>
+                </div>
             </div>
         )
     }

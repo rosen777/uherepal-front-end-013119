@@ -80,11 +80,16 @@ class Joined extends Component {
         const { events } = this.state
         const { username } = this.props
         const userNameCap = this.props.username.toUpperCase()
-        const dateToFormat = events.date
-
        
-        let guests =[ ]
         return (
+            <div>
+            <div className='heading'>
+                <h1 className="events_text">
+                    My Events
+                <span className='border-gradient border-gradient-purple'>
+                    </span>
+                </h1>
+            </div>
             <span style={this.style} className='user-list'>
                 <h3 className='history-heading'>{`${userNameCap}'s History of Events`}</h3>
                 {events.length === 0 && <p>Sorry, you don't have any events.</p>}
@@ -92,15 +97,13 @@ class Joined extends Component {
                     <Card.Group>
                     {
                     events.map(event =>
-                        
-                            <Card color='grey' raised='true' className='event-card'>
+                            <Card color='grey' raised={true} className='event-card'>
                             <Image src={`${event.image}`} />
                             <Card.Content>
                             <Card.Header>
                                 {event.title}
                             </Card.Header>
                                 <Card.Content extra>
-                                <a>
                             <Card.Description className='event-card-created-by'><b>Created By: </b><span className='event-card-host'>{`${event.host}`}</span>
                                 </Card.Description>
                                 <Card.Description className='event-card-capacity'>
@@ -108,8 +111,6 @@ class Joined extends Component {
                                     {event.users.length}    
                                     {` ${event.users.map(user => (user.username)).join(', ')}`}
                                 </Card.Description>
-                                </a>
-                                <a>
                                 <Card.Description className='event-card-date'>
                                     <Icon name='calendar alternate' color='grey' />
                                     <Moment format="DD/MM/YYYY">
@@ -122,7 +123,6 @@ class Joined extends Component {
                                         {event.date}
                                     </Moment>
                                 </Card.Description>
-                                </a>
                                 <Button 
                                 id={event.id}
                                 onClick={this.cancelEvent} inverted color='red'
@@ -146,7 +146,7 @@ class Joined extends Component {
                
             </span>
 
-           
+           </div>
         )
     }
 }

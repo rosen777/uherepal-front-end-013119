@@ -2,7 +2,8 @@
  width: 1px;
 }
 
-.login_text{
+.profile {
+    margin-left: 1%;
     display: inline-block;
 }
 
@@ -78,4 +79,12 @@
 
 .password_title {
     font-size: 12px;
+}
+
+.account-text-container {
+    margin-left: 1%;
+}
+
+.map-link {
+    margin-left: 1%;
 }

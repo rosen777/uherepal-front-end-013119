@@ -17,11 +17,13 @@ import './EventMap.css'
 // Importing the form from semantic UI
 import { Button, Form } from 'semantic-ui-react'
 
-import { DateInput, TimeInput, DateTimeInput, DatesRangeInput } from 'semantic-ui-calendar-react';
+import { DateTimeInput, DatesRangeInput } from 'semantic-ui-calendar-react';
 
 import API from '../API'
 
 const TOKEN = process.env.REACT_APP_MAPBOX_API_KEY
+
+
 
 const navStyle = {
     position: 'absolute',
@@ -37,13 +39,19 @@ const pickerStyle = {
     margin: '1% 1% 1% 1%', 
 };
 
-const pickerGroup = {
-    borderTop: '1px solid grey',
+const pickerGroupStyle = {
     marginTop: '0.5%'
 };
 
 const dateTimeStyle = {
-    color: 'grey',
+    marginBottom: '0.5%',
+}
+
+const dateRangeStyle = {
+    display: 'inline-block',
+}
+
+const dateRangeInputStyle = {
     marginTop: '0.5%'
 }
 
@@ -64,8 +72,10 @@ export default class EventMap extends Component {
         eventLong: 0,
         events: [],
         eventSwitch: false,
+        imageSwitch: false,
         dateTime: '',
         datesRange: '',
+        uploadingInfo: false,
         filteredEventsRange: [],
         viewport: {
             latitude: 37.773,
@@ -116,7 +126,6 @@ export default class EventMap extends Component {
         const range = this.state.datesRange.split(' - ')
         const minDate = moment(range[0], 'DD-MM-YYYY')
         const maxDate = moment(range[1], 'DD-MM-YYYY')
-        const eventDate = moment(this.state.events.date)
         let filteredEvents = []
 
         if (!this.state.datesRange) {
@@ -143,7 +152,7 @@ export default class EventMap extends Component {
             let newEventObject = {
                 "title": event.target.title.value,
                 "capacity": event.target.capacity.value,
-                "image": event.target.image.value,
+                "image": this.state.image,
                 "date": this.state.dateTime,
                 "latitude": this.state.eventLat,
                 "longitude": this.state.eventLong,
@@ -152,6 +161,7 @@ export default class EventMap extends Component {
             this.setState({
                 events: [...this.state.events, newEventObject
                 ],
+                imageSwitch: false,
                 eventSwitch: false
             })
             API.createEvent(newEventObject)
@@ -163,7 +173,6 @@ export default class EventMap extends Component {
     }
 
     joinEvent = (id) => {
-        console.log(id)
         let newUserEventObject = {
             "event_id": id
         }
@@ -299,18 +308,48 @@ export default class EventMap extends Component {
         });
     };
 
+    uploadWidget = () => {
+        //---- maybe not this ne: eslint-disable-next-line no-undef
+        // cloudinariy api is loaded directly in index.html
+        window.cloudinary.openUploadWidget({ cloud_name: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME, upload_preset: 'uherepal', tags:['event'] },
+          function (error, result) {
+            if(result) {
+              this.setState({
+                  image: result[0]['url'],
+                imageSwitch: true
+              })
+                } else {
+                result = 'http://res.cloudinary.com/dld2hjhpb/image/upload/v1550094337/nqirfhtrj0xt6ctiqwzt.png'
+                    this.setState({
+                        image: result,
+                        imageSwitch: true
+                    })
+                }
+            }.bind(this)
+            )
+           
+    }
+
     render() {
 
         return (
-            <div className='event-map-container'>
+            
+                <div className = 'event-map-container' >
+                    {
+                this.state.eventSwitch ?
+                <div className = 'add-image-container'>
+                 <Button onClick={this.uploadWidget} className='upload-btn' color='blue'>
+                   Add an Event Image
+                </Button> 
+                </div> : null
+            }
 
-                <div className='event-form' style={{ display: this.state.eventSwitch ? 'block' : 'none' }}>
+                <div className='event-form' style={{ display: this.state.eventSwitch && this.state.imageSwitch ? 'block' : 'none' }}>
           
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Group widths="equal">
                         <Form.Input fluid label="title" placeholder="title" name="title" />
                         <Form.Input fluid label="capacity" placeholder="capacity" name="capacity" />
-                        <Form.Input fluid label="image" placeholder="Enter an image URL" name="image" />
                         <DateTimeInput
                             label="date / time"
                             name="dateTime"
@@ -322,7 +361,8 @@ export default class EventMap extends Component {
                         <Form.Input fluid label="latitude" placeholder={`${this.state.eventLat}`} name="latitude" />
                         <Form.Input fluid label="longitude" placeholder={`${this.state.eventLong}`} name="longitude" />
                     </Form.Group>
-                    <Form.Button>Submit</Form.Button>
+              
+                    <Form.Button color='blue'>Submit</Form.Button>
                     <br/>
                 </Form>
 
@@ -352,8 +392,12 @@ export default class EventMap extends Component {
                         </div>
 
                     </MapGL>
-                    <div className='date-range-input' style={pickerGroup}>
+                    <div className='date-range-input' style={pickerGroupStyle} >
+                    <div style={dateRangeStyle}>
                     <h1 style={dateTimeStyle}>Select event start and end date:</h1>
+                     <span className='border-gradient-purple'></span>
+                    </div>
+                    <div style={dateRangeInputStyle}>
                     <DatesRangeInput
                         name="datesRange"
                         placeholder="Select Start Date - End Date"
@@ -363,10 +407,12 @@ export default class EventMap extends Component {
                         onChange={this.handleChange}
                         style={pickerStyle}
                     />
+                    </div>   
                 </div>
-
                 </div>
             </div>
+
+
         );
     }
 
